@@ -16,6 +16,7 @@ Route::get('/', 'PersonaController@index');
 
 Route::post('/visitas', 'VisitaController@store');
 Route::delete('/visitas/{id}', 'VisitaController@destroy');
+Route::get('/visitas/download', 'VisitaController@download');
 
 
 Route::post('/visitantes', 'VisitanteController@store');

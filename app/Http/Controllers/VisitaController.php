@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Visita;
+use App\Exports\VisitasExport;
+use Maatwebsite\Excel\Facades\Excel;
+use File;
 
 class VisitaController extends Controller
 {
@@ -120,4 +123,20 @@ class VisitaController extends Controller
         ]);
 
     }
+
+    /**
+     * Download report
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
+     public function download(Request $request)
+     {
+        $fecha = $request->fecha;
+        $filename = 'visitas_' . date('Ymd', strtotime($fecha)). '.xlsx';
+        Excel::store(new VisitasExport(strtotime($fecha)), 'visitas.xlsx');
+        File::move(storage_path('app\visitas.xlsx'), public_path('files\\'. $filename));
+        return $filename;
+     }
 }
